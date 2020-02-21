@@ -1,0 +1,4 @@
+The colored output can now be disabled by the :envvar:`NO_COLOR` environment variable.
+
+If :envvar:`NO_COLOR` is set (regardless of its value) color in the output will be suppressed.
+If COCOTB_ANSI_OUTPUT=1 is set, :envvar:`NO_COLOR` will be ignored.

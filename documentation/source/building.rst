@@ -1,6 +1,6 @@
-***************************************
+#######################################
 Build options and Environment Variables
-***************************************
+#######################################
 
 Make System
 ===========
@@ -53,7 +53,7 @@ and
 .. make:var:: WAVES
 
       Set this to 1 to enable wave traces dump for the Aldec Riviera-PRO and Mentor Graphics Questa simulators.
-      To get wave traces in Icarus Verilog see :ref:`sim-icarus-waveforms`.
+      To get wave traces in Icarus Verilog see :ref:`Simulator Support`.
 
 .. make:var:: VERILOG_SOURCES
 
@@ -128,6 +128,10 @@ and
 
       Use to add additional dependencies to the simulation target.
 
+.. make:var:: COCOTB_NVC_TRACE
+
+      Set this to 1 to enable display of VHPI traces when using the NVC VHDL simulator.
+
 .. make:var:: SIM_BUILD
 
       Use to define a scratch directory for use by the simulator. The path is relative to the Makefile location.
@@ -169,6 +173,12 @@ Environment Variables
 
     ``COCOTB_ANSI_OUTPUT=0`` suppresses the ANSI output in the log messages
 
+.. envvar:: NO_COLOR
+    
+    From http://no-color.org : All command-line software which outputs text with ANSI color added should check for the presence 
+    of a ``NO_COLOR`` environment variable that, when present (regardless of its value), prevents the addition of ANSI color.
+    If ``COCOTB_ANSI_OUTPUT=1`` is set, ``NO_COLOR`` will be ignored.
+
 .. envvar:: COCOTB_REDUCED_LOG_FMT
 
     If defined, log lines displayed in the terminal will be shorter. It will print only
@@ -196,12 +206,6 @@ Environment Variables
     The file name where xUnit XML tests results are stored. If not provided, the default is :file:`results.xml`.
 
     .. versionadded:: 1.3
-
-.. envvar:: SCRIPT_FILE
-
-    The name of a simulator script that is run as part of the simulation, e.g. for setting up wave traces.
-    You can usually write out such a file from the simulator's GUI.
-    This is currently supported for the Mentor Questa, Mentor ModelSim and Aldec Riviera simulators.
 
 
 Additional Environment Variables
@@ -275,19 +279,3 @@ Additional Environment Variables
     Path to the directory containing the cocotb Makefiles and simulator libraries in the subdirectories
     :file:`lib`, :file:`include`, and :file:`makefiles`.
     You don't normally need to modify this.
-
-.. envvar:: GPI_EXTRA
-
-    A comma-separated list of extra libraries that are dynamically loaded at runtime.
-    A function from each of these libraries will be called as an entry point prior to elaboration, allowing these libraries to register
-    system functions and callbacks. Note that HDL objects cannot be accessed at this time.
-    The function name defaults to ``{library_name}_entry_point``, but a custom name can be specified using a ``:``, which follows an existing simulator convention.
-
-    For example:
-
-    * ``GPI_EXTRA=name`` will load ``libname.so`` with default entry point ``name_entry_point``.
-    * ``GPI_EXTRA=nameA:entryA,nameB:entryB`` will first load ``libnameA.so`` with entry point ``entryA`` , then load ``libnameB.so`` with entry point ``entryB``.
-
-    .. versionchanged:: 1.4.0
-        Support for the custom entry point via ``:`` was added.
-        Previously ``:`` was used as a separator between libraries instead of ``,``.
